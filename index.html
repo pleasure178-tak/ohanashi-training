@@ -278,32 +278,32 @@
     <!-- 起承転結 -->
     <div class="card" style="margin-top:14px;">
       <div style="text-align:center;font-weight:900;font-size:1.1rem;color:var(--blue-dark);">
-        お話の「じゅんばん」<br><span class="small">起承転結（きしょうてんけつ）</span>
+        話の「流れ」<br><span class="small">起承転結（きしょうてんけつ）</span>
       </div>
-      <p class="small" style="text-align:center;margin:6px 0;">この順番で話すと、グッとわかりやすくなるよ！</p>
+      <p class="small" style="text-align:center;margin:6px 0;">この流れで話すと、グッとわかりやすくなるよ！<br>（例：動物園に行った日の話）</p>
 
       <div class="step s1">
         <div class="step-title">① はじまり（起）</div>
-        いつ・どこで・だれが、をいう
-        <div class="ex">「ある日、公園で友だちと遊んでいました」</div>
-        <span class="magic">ある日</span><span class="magic">まず</span><span class="magic">きのう</span>
+        いつ・どこで・だれが、で話をスタート
+        <div class="ex">「日曜日に、家族で動物園に行きました」</div>
+        <span class="magic">ある日</span><span class="magic">きのう</span><span class="magic">まず</span>
       </div>
       <div class="step s2">
-        <div class="step-title">② つづき（承）</div>
-        なにをしたか、をいう
-        <div class="ex">「みんなでサッカーを始めました」</div>
+        <div class="step-title">② くわしく（承）</div>
+        なにをしたか、くわしく話す
+        <div class="ex">「大きなゾウを見て、おべんとうも食べました」</div>
         <span class="magic">つぎに</span><span class="magic">それから</span><span class="magic">そして</span>
       </div>
       <div class="step s3">
-        <div class="step-title">③ へんか（転）</div>
-        びっくりしたこと・変わったこと
-        <div class="ex">「すると、ボールが川に落ちてしまいました！」</div>
-        <span class="magic">すると</span><span class="magic">でも</span><span class="magic">急に</span>
+        <div class="step-title">③ 変化・山場（転）</div>
+        一番もり上がるところ！びっくり・ハプニング
+        <div class="ex">「すると、サルがぼうしをパクッと取っちゃったんです！」</div>
+        <span class="magic">すると</span><span class="magic">でも</span><span class="magic">なんと</span>
       </div>
       <div class="step s4">
         <div class="step-title">④ まとめ（結）</div>
-        どうなったか・思ったこと
-        <div class="ex">「みんなで拾って、大笑いしました」</div>
+        どうなったか＋思ったこと
+        <div class="ex">「さいごは返してくれて、わすれられない一日になりました」</div>
         <span class="magic">さいごに</span><span class="magic">〜と思いました</span>
       </div>
     </div>
@@ -332,7 +332,7 @@
 
     <div class="hint-box" style="margin-bottom:14px;">
       <span class="ttl">⭐ 点数アップのひみつ</span><br>
-      「6つのカギ」と「じゅんばんの言葉」が入っていると、採点で点数が上がるよ！けっか画面で、どれが使えたか見られるよ。
+      「6つのカギ」と「流れの言葉」が入っていると、採点で点数が上がるよ！けっか画面で、どれが使えたか見られるよ。
     </div>
   </section>
 
@@ -356,7 +356,7 @@
 
     <div class="hint-box">
       <span class="ttl">💡 上手に話すコツ</span><br>
-      じゅんばん：①はじまり ②つづき ③へんか ④まとめ<br>
+      話の流れ：①はじまり ②くわしく ③変化・山場 ④まとめ<br>
       6つのカギ：いつ・どこで・だれが・なにを・なぜ・どうやって
     </div>
 
@@ -597,12 +597,12 @@ const W5H1 = [
   {k:"どうやって", e:"🛠", re:/(まず|つぎに|次に|それから|さいごに|最後に|使って|つかって|一緒に|いっしょに|方法|やり方|ように)/},
 ];
 
-/* 起承転結（じゅんばんの言葉）の検出 */
+/* 起承転結（話の流れの言葉）の検出 */
 const KISHO = [
-  {k:"はじまり", e:"🌅", re:/(ある日|あるとき|まず|はじめに|最初|きのう|昨日|きょう|今日|この前)/},
-  {k:"つづき",  e:"➡️", re:/(つぎに|次に|それから|そして|それで|どんどん)/},
-  {k:"へんか",  e:"⚡", re:/(でも|ところが|すると|急に|きゅうに|しかし|ですが|びっくり|なんと)/},
-  {k:"まとめ",  e:"🎀", re:/(さいごに|最後に|まとめると|というわけで|と思いました|と思います|でした|たいです)/},
+  {k:"はじまり",   e:"🌅", re:/(ある日|あるとき|まず|はじめに|最初|きのう|昨日|きょう|今日|この前)/},
+  {k:"くわしく",   e:"➡️", re:/(つぎに|次に|それから|そして|それで|どんどん)/},
+  {k:"変化・山場", e:"⚡", re:/(でも|ところが|すると|急に|きゅうに|しかし|ですが|びっくり|なんと)/},
+  {k:"まとめ",     e:"🎀", re:/(さいごに|最後に|まとめると|というわけで|と思いました|と思います|でした|たいです)/},
 ];
 
 function praiseFor(score){
@@ -1067,7 +1067,7 @@ function finishTalk(){
   $("r-chars").textContent = chars;
   $("r-bwords").innerHTML =
     chipRow("🔑 6つのカギ（1つ5点）", W5H1, w5Found) +
-    chipRow("📖 お話のじゅんばん（1つ5点）", KISHO, kishoFound);
+    chipRow("📖 話の流れ（1つ5点）", KISHO, kishoFound);
   $("r-tip").textContent = fillers >= 3
     ? `「えっと」が${fillers}回あったよ。ゆっくりでだいじょうぶ！`
     : (w5Found.length <= 3 ? "灰色のカギを入れると、もっと点数アップ！" : "");
