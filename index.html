@@ -162,6 +162,43 @@
     display:inline-block;background:#E8F5E9;color:#2E7D32;font-weight:900;
     font-size:.85rem;padding:4px 12px;border-radius:999px;margin:3px;
   }
+  .bword.off{background:#F0F4F7;color:#A7BCCA;}
+  .chip-row-title{font-size:.78rem;font-weight:900;color:#5A8AA8;margin-top:8px;}
+
+  /* ===== まなぶ画面 ===== */
+  .step{
+    border-radius:14px;padding:10px 12px;margin:8px 0;
+    font-size:.88rem;font-weight:700;line-height:1.8;
+  }
+  .step .step-title{font-weight:900;font-size:.95rem;}
+  .step .ex{
+    background:rgba(255,255,255,.75);border-radius:10px;padding:6px 10px;
+    margin-top:4px;font-size:.85rem;
+  }
+  .step.s1{background:#E3F4FD;border-left:6px solid #4FC3F7;}
+  .step.s2{background:#EAF7EB;border-left:6px solid #66BB6A;}
+  .step.s3{background:#FFEFF2;border-left:6px solid #FF8FA3;}
+  .step.s4{background:#FFF8E1;border-left:6px solid #FFD54F;}
+  .magic{
+    display:inline-block;background:#fff;border:2px solid currentColor;
+    border-radius:999px;font-size:.78rem;font-weight:900;padding:2px 10px;margin:2px;
+  }
+  .s1 .magic{color:#0288D1;} .s2 .magic{color:#2E7D32;}
+  .s3 .magic{color:#D6455E;} .s4 .magic{color:#C79100;}
+  .w-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+  .w-cell{
+    background:#F4FBFF;border-radius:14px;padding:10px 8px;text-align:center;
+    font-weight:700;font-size:.82rem;line-height:1.6;
+  }
+  .w-cell .w-emoji{font-size:1.4rem;display:block;}
+  .w-cell .w-name{font-weight:900;font-size:.95rem;color:var(--blue-dark);}
+  .w-ex{
+    background:#F4FBFF;border-radius:14px;padding:12px;font-size:.92rem;
+    font-weight:700;line-height:2.1;margin-top:10px;
+  }
+  .w-ex u{text-decoration:none;border-bottom:3px solid;padding-bottom:1px;font-weight:900;}
+  .u1{border-color:#4FC3F7;} .u2{border-color:#66BB6A;} .u3{border-color:#BA68C8;}
+  .u4{border-color:#FF8FA3;} .u5{border-color:#FFB300;} .u6{border-color:#8D6E63;}
   .transcript-box{
     background:#F4FBFF;border-radius:14px;padding:12px;font-size:.9rem;line-height:1.8;
     max-height:150px;overflow-y:auto;margin-top:8px;
@@ -170,6 +207,32 @@
   .manual-score .n{font-size:3.4rem;font-weight:900;color:var(--blue-dark);}
   .manual-score .u{font-size:1.2rem;font-weight:900;color:var(--blue-dark);}
   input[type=range]{width:100%;accent-color:var(--blue);height:34px;}
+
+  /* ===== お話ログ ===== */
+  .log-item{border-bottom:2px solid #EAF6FE;padding:8px 2px;}
+  .log-item:last-child{border-bottom:none;}
+  .log-head{display:flex;align-items:center;gap:8px;cursor:pointer;}
+  .log-date{color:#5A8AA8;font-size:.72rem;font-weight:700;white-space:nowrap;}
+  .log-topic{flex:1;font-size:.85rem;font-weight:700;line-height:1.5;}
+  .log-score{
+    background:var(--blue-light);color:var(--blue-dark);font-weight:900;
+    font-size:.8rem;padding:3px 10px;border-radius:999px;white-space:nowrap;
+  }
+  .log-score.gold{background:#FFF3CD;color:#C79100;}
+  .log-body{
+    display:none;background:#F4FBFF;border-radius:12px;
+    padding:10px 12px;margin-top:8px;font-size:.85rem;line-height:1.8;
+  }
+  .log-item.open .log-body{display:block;}
+  .log-written{margin-top:8px;border-top:2px dashed #BFE0F0;padding-top:8px;}
+
+  /* ===== 文章チャレンジ ===== */
+  textarea{
+    width:100%;min-height:160px;border:3px solid var(--blue-light);border-radius:16px;
+    padding:12px;font-family:inherit;font-size:1rem;line-height:1.8;color:var(--text);
+    resize:vertical;background:var(--white);
+  }
+  textarea:focus{outline:none;border-color:var(--blue);}
 
   /* ===== 記録 ===== */
   .level-card{text-align:center;padding:22px 20px;}
@@ -203,7 +266,74 @@
       <div class="item"><div class="num" id="st-streak">0</div><div class="label">連続日数</div></div>
       <div class="item"><div class="num" id="st-best">0</div><div class="label">最高点</div></div>
     </div>
+    <button class="btn sub" id="btn-learn" style="margin-top:12px;">📚 話し方をまなぶ</button>
     <button class="btn sub" id="btn-record" style="margin-top:12px;">📖 記録を見る</button>
+  </section>
+
+  <!-- ============ まなぶ ============ -->
+  <section id="screen-learn" class="screen">
+    <button class="back-home" id="btn-learn-back">←</button>
+    <h1>📚 話し方をまなぶ</h1>
+
+    <!-- 起承転結 -->
+    <div class="card" style="margin-top:14px;">
+      <div style="text-align:center;font-weight:900;font-size:1.1rem;color:var(--blue-dark);">
+        お話の「じゅんばん」<br><span class="small">起承転結（きしょうてんけつ）</span>
+      </div>
+      <p class="small" style="text-align:center;margin:6px 0;">この順番で話すと、グッとわかりやすくなるよ！</p>
+
+      <div class="step s1">
+        <div class="step-title">① はじまり（起）</div>
+        いつ・どこで・だれが、をいう
+        <div class="ex">「ある日、公園で友だちと遊んでいました」</div>
+        <span class="magic">ある日</span><span class="magic">まず</span><span class="magic">きのう</span>
+      </div>
+      <div class="step s2">
+        <div class="step-title">② つづき（承）</div>
+        なにをしたか、をいう
+        <div class="ex">「みんなでサッカーを始めました」</div>
+        <span class="magic">つぎに</span><span class="magic">それから</span><span class="magic">そして</span>
+      </div>
+      <div class="step s3">
+        <div class="step-title">③ へんか（転）</div>
+        びっくりしたこと・変わったこと
+        <div class="ex">「すると、ボールが川に落ちてしまいました！」</div>
+        <span class="magic">すると</span><span class="magic">でも</span><span class="magic">急に</span>
+      </div>
+      <div class="step s4">
+        <div class="step-title">④ まとめ（結）</div>
+        どうなったか・思ったこと
+        <div class="ex">「みんなで拾って、大笑いしました」</div>
+        <span class="magic">さいごに</span><span class="magic">〜と思いました</span>
+      </div>
+    </div>
+
+    <!-- 5W1H -->
+    <div class="card">
+      <div style="text-align:center;font-weight:900;font-size:1.1rem;color:var(--blue-dark);">
+        6つのカギ<br><span class="small">5W1H（ごだぶりゅーいちえいち）</span>
+      </div>
+      <p class="small" style="text-align:center;margin:6px 0;">この6つが入っていると、話がもれなく伝わるよ！</p>
+
+      <div class="w-grid">
+        <div class="w-cell"><span class="w-emoji">🕐</span><span class="w-name">いつ</span><br>きのう・朝・3時</div>
+        <div class="w-cell"><span class="w-emoji">📍</span><span class="w-name">どこで</span><br>学校で・公園で</div>
+        <div class="w-cell"><span class="w-emoji">👤</span><span class="w-name">だれが</span><br>ぼくが・友だちと</div>
+        <div class="w-cell"><span class="w-emoji">⚽</span><span class="w-name">なにを</span><br>サッカーを・本を</div>
+        <div class="w-cell"><span class="w-emoji">❓</span><span class="w-name">なぜ</span><br>なぜなら〜だから</div>
+        <div class="w-cell"><span class="w-emoji">🛠</span><span class="w-name">どうやって</span><br>まず〜つぎに〜</div>
+      </div>
+
+      <div style="font-weight:900;font-size:.9rem;">ぜんぶ入りの例文：</div>
+      <div class="w-ex">
+        「<u class="u1">きのう</u>、<u class="u2">学校で</u>、<u class="u3">ぼくは</u>、<u class="u4">なわとびの練習を</u>しました。<u class="u5">なぜなら大会が近いからです</u>。<u class="u6">まず前とび、つぎに二重とびの順番で</u>やりました」
+      </div>
+    </div>
+
+    <div class="hint-box" style="margin-bottom:14px;">
+      <span class="ttl">⭐ 点数アップのひみつ</span><br>
+      「6つのカギ」と「じゅんばんの言葉」が入っていると、採点で点数が上がるよ！けっか画面で、どれが使えたか見られるよ。
+    </div>
   </section>
 
   <!-- ============ お題 ============ -->
@@ -226,15 +356,14 @@
 
     <div class="hint-box">
       <span class="ttl">💡 上手に話すコツ</span><br>
-      ① 言いたいこと<br>
-      ② 理由「なぜなら…」<br>
-      ③ くわしく「たとえば…」<br>
-      ④ 最後に もう一度まとめ！
+      じゅんばん：①はじまり ②つづき ③へんか ④まとめ<br>
+      6つのカギ：いつ・どこで・だれが・なにを・なぜ・どうやって
     </div>
 
     <div style="margin-top:14px;">
       <button class="btn" id="btn-start-think">✨ 考えるタイム スタート</button>
       <button class="btn sub" id="btn-reroll">🎲 別のお題にする</button>
+      <button class="btn sub" id="btn-learn2">📚 話し方をまなぶ</button>
     </div>
   </section>
 
@@ -310,8 +439,46 @@
       </div>
     </div>
 
+    <button class="btn sub" id="btn-write">✏️ 文章でも書いてみる（やりたい人だけ）</button>
     <button class="btn" id="btn-again">🎲 もう一度遊ぶ</button>
     <button class="btn sub" data-goto="home">🏠 ホームにもどる</button>
+  </section>
+
+  <!-- ============ 文章チャレンジ ============ -->
+  <section id="screen-write" class="screen">
+    <h1 style="margin-top:10px;">✏️ 文章チャレンジ</h1>
+
+    <div id="write-edit">
+      <div class="card" style="margin-top:14px;">
+        <div style="text-align:center;"><span class="topic-cat">お題</span></div>
+        <div style="font-weight:900;text-align:center;line-height:1.6;margin-bottom:10px;" id="write-topic"></div>
+        <textarea id="write-area" placeholder="話したことや、自分の気持ちを文章で書いてみよう！"></textarea>
+        <div class="small" id="write-count" style="text-align:right;margin-top:4px;">0文字</div>
+      </div>
+      <div class="hint-box" style="margin-bottom:14px;">
+        <span class="ttl">💡 書き方のコツ</span><br>
+        話したことを、もう一度文章にしてみよう。<br>
+        「わたしは〜と思います。なぜなら〜だからです。」
+      </div>
+      <button class="btn" id="btn-write-done">書けた！ ✨</button>
+      <button class="btn sub" data-goto="result">← もどる（書かなくてもOK）</button>
+    </div>
+
+    <div id="write-result" style="display:none;">
+      <div class="mascot-area" style="margin-top:8px;">
+        <div class="bubble" id="write-bubble">すごい！</div>
+        <div id="write-mascot"></div>
+      </div>
+      <div class="card">
+        <div class="result-stats">
+          <div class="item"><div class="num" id="w-chars">0</div><div class="label">書いた文字の数</div></div>
+        </div>
+        <div class="badge-words" id="w-bwords"></div>
+        <div class="small" style="text-align:center;">お話ログに保存したよ 📝</div>
+      </div>
+      <button class="btn" id="btn-again2">🎲 もう一度遊ぶ</button>
+      <button class="btn sub" data-goto="home">🏠 ホームにもどる</button>
+    </div>
   </section>
 
   <!-- ============ 記録 ============ -->
@@ -330,6 +497,11 @@
         <div class="item"><div class="num" id="rec-streak">0</div><div class="label">連続日数</div></div>
         <div class="item"><div class="num" id="rec-best">0</div><div class="label">最高点</div></div>
       </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:900;text-align:center;margin-bottom:8px;">🗒 お話ログ</div>
+      <div class="small" style="text-align:center;margin-bottom:6px;">タップすると話した内容が見られるよ</div>
+      <div id="log-area"></div>
     </div>
     <div class="card" style="text-align:center;">
       <div style="font-weight:900;margin-bottom:6px;">🏅 バッジ</div>
@@ -414,6 +586,24 @@ const TOPICS = {
 
 const BONUS_WORDS = ["なぜなら","だから","たとえば","と思います","理由は","まとめると"];
 const FILLER_RE = /(えっと|えーと|えっとー|あのー|あのう|うーんと|えーっと)/g;
+
+/* 5W1H（6つのカギ）の検出 */
+const W5H1 = [
+  {k:"いつ",   e:"🕐", re:/(きのう|昨日|きょう|今日|あした|明日|この前|さっき|朝|昼|夜|夕方|春|夏|秋|冬|去年|来年|先週|来週|週末|休み|[0-9０-９一二三四五六七八九十]+(時|年|月|日|分|曜日)|いつも|ときどき|最近)/},
+  {k:"どこで", e:"📍", re:/(学校|いえ|家|公園|お店|店|部屋|教室|外|海|山|川|プール|図書館|スーパー|駅|道|庭|グラウンド|体育館|動物園|水族館|島|町|ところ)/},
+  {k:"だれが", e:"👤", re:/(ぼく|僕|わたし|私|友だち|ともだち|友達|お母さん|お父さん|母|父|ママ|パパ|先生|兄|姉|弟|妹|おばあ|おじい|家族|みんな|クラス|チーム|自分)/},
+  {k:"なにを", e:"⚽", re:/を/},
+  {k:"なぜ",   e:"❓", re:/(なぜなら|だから|理由|りゆう|ので|からです|から、)/},
+  {k:"どうやって", e:"🛠", re:/(まず|つぎに|次に|それから|さいごに|最後に|使って|つかって|一緒に|いっしょに|方法|やり方|ように)/},
+];
+
+/* 起承転結（じゅんばんの言葉）の検出 */
+const KISHO = [
+  {k:"はじまり", e:"🌅", re:/(ある日|あるとき|まず|はじめに|最初|きのう|昨日|きょう|今日|この前)/},
+  {k:"つづき",  e:"➡️", re:/(つぎに|次に|それから|そして|それで|どんどん)/},
+  {k:"へんか",  e:"⚡", re:/(でも|ところが|すると|急に|きゅうに|しかし|ですが|びっくり|なんと)/},
+  {k:"まとめ",  e:"🎀", re:/(さいごに|最後に|まとめると|というわけで|と思いました|と思います|でした|たいです)/},
+];
 
 function praiseFor(score){
   if(score >= 100) return ["💯 100点満点！！かんぺきだ！！","すごすぎる！！お話チャンピオン！"];
@@ -564,6 +754,14 @@ function duoSVG(width){
   </svg>`;
 }
 
+/* ユキン単体（文章チャレンジ） */
+function whiteSVG(size){
+  size = size || 140;
+  return `<svg class="mascot" style="width:${size}px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(100,92)">${whitePuppet()}</g>
+  </svg>`;
+}
+
 /* 3人ならび（記録画面） */
 function trioSVG(width){
   width = width || 280;
@@ -577,8 +775,8 @@ function trioSVG(width){
 /* ================= データ保存 ================= */
 const STORE_KEY = "ohanashi_data_v2";
 function loadData(){
-  try{ return Object.assign({total:0,best:0,streak:0,lastDate:"",badges:[]}, JSON.parse(localStorage.getItem(STORE_KEY)||"{}")); }
-  catch(e){ return {total:0,best:0,streak:0,lastDate:"",badges:[]}; }
+  try{ return Object.assign({total:0,best:0,streak:0,lastDate:"",badges:[],logs:[]}, JSON.parse(localStorage.getItem(STORE_KEY)||"{}")); }
+  catch(e){ return {total:0,best:0,streak:0,lastDate:"",badges:[],logs:[]}; }
 }
 function saveData(d){ localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
 
@@ -586,10 +784,23 @@ function todayStr(){
   const d = new Date();
   return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
-function recordResult(score){
+let lastLogIdx = null;  // 直前のログ位置（文章チャレンジの保存先）
+
+function recordResult(score, log){
   const d = loadData();
   d.total += 1;
   if(score > d.best) d.best = score;
+  if(log){
+    const now = new Date();
+    d.logs.push({
+      d: (now.getMonth()+1)+"/"+now.getDate()+" "+String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0"),
+      t: log.topic || "",
+      s: score,
+      x: log.text || "",
+    });
+    if(d.logs.length > 100) d.logs = d.logs.slice(-100);  // 最新100件だけ保存
+    lastLogIdx = d.logs.length - 1;
+  }
   const today = todayStr();
   if(d.lastDate !== today){
     const y = new Date(); y.setDate(y.getDate()-1);
@@ -655,6 +866,12 @@ CATEGORIES.forEach(c=>{
 });
 $("btn-gacha").addEventListener("click",()=>pickTopic(null));
 $("btn-record").addEventListener("click",()=>{ renderRecord(); show("record"); });
+
+/* まなぶ画面（開いた場所に戻れるようにする） */
+let learnFrom = "home";
+$("btn-learn").addEventListener("click",()=>{ learnFrom = "home"; show("learn"); });
+$("btn-learn2").addEventListener("click",()=>{ learnFrom = "topic"; show("learn"); });
+$("btn-learn-back").addEventListener("click",()=>{ show(learnFrom); if(learnFrom==="home") refreshHome(); });
 
 /* ================= お題 ================= */
 let currentTopic = null, currentCat = null, talkSec = 30;
@@ -785,12 +1002,18 @@ function stopAll(){
 /* ================= 結果 ================= */
 let manualDone = false;
 
-function calcScore(chars, bonusCount, talkedSec, fillers){
-  const charPts   = Math.min(60, Math.round(chars * 0.6));           // 100文字で60点
-  const bonusPts  = Math.min(20, bonusCount * 10);                    // 「なぜなら」等 1つ10点
-  const timePts   = Math.min(20, Math.round(talkedSec / talkSec * 20)); // 時間いっぱい話して20点
-  const penalty   = Math.min(10, fillers * 2);                        // 「えっと」1回-2点
-  return Math.max(10, Math.min(100, charPts + bonusPts + timePts - penalty));
+function calcScore(chars, w5Count, kishoCount, talkedSec, fillers){
+  const charPts  = Math.min(40, Math.round(chars * 0.5));              // 80文字で40点
+  const w5Pts    = w5Count * 5;                                        // 6つのカギ 1つ5点（最大30点）
+  const kishoPts = kishoCount * 5;                                     // じゅんばんの言葉 1つ5点（最大20点）
+  const timePts  = Math.min(10, Math.round(talkedSec / talkSec * 10)); // 時間いっぱい話して10点
+  const penalty  = Math.min(10, fillers * 2);                          // 「えっと」1回-2点
+  return Math.max(10, Math.min(100, charPts + w5Pts + kishoPts + timePts - penalty));
+}
+
+function chipRow(title, defs, foundKeys){
+  return `<div class="chip-row-title">${title}</div>` +
+    defs.map(d=>`<span class="bword${foundKeys.includes(d.k)?"":" off"}">${d.e} ${d.k}</span>`).join("");
 }
 
 function animateScore(score){
@@ -835,21 +1058,24 @@ function finishTalk(){
   $("manual-result").style.display = "none";
 
   const chars = text.replace(/[\s、。！？!?]/g,"").length;
-  const bonusFound = BONUS_WORDS.filter(w=>text.includes(w));
+  const w5Found = W5H1.filter(d=>d.re.test(text)).map(d=>d.k);
+  const kishoFound = KISHO.filter(d=>d.re.test(text)).map(d=>d.k);
   const fillers = (text.match(FILLER_RE)||[]).length;
-  const score = calcScore(chars, bonusFound.length, talkedSec, fillers);
+  const score = calcScore(chars, w5Found.length, kishoFound.length, talkedSec, fillers);
 
   $("r-time").textContent = talkedSec;
   $("r-chars").textContent = chars;
-  $("r-bwords").innerHTML = bonusFound.length
-    ? "使えた言葉: " + bonusFound.map(w=>`<span class="bword">${w}</span>`).join("")
-    : '<span class="small">「なぜなら」「たとえば」が使えると点数アップ！</span>';
-  $("r-tip").textContent = fillers >= 3 ? `「えっと」が${fillers}回あったよ。ゆっくりでだいじょうぶ！` : "";
+  $("r-bwords").innerHTML =
+    chipRow("🔑 6つのカギ（1つ5点）", W5H1, w5Found) +
+    chipRow("📖 お話のじゅんばん（1つ5点）", KISHO, kishoFound);
+  $("r-tip").textContent = fillers >= 3
+    ? `「えっと」が${fillers}回あったよ。ゆっくりでだいじょうぶ！`
+    : (w5Found.length <= 3 ? "灰色のカギを入れると、もっと点数アップ！" : "");
   $("r-transcript").textContent = text || "（言葉が聞こえなかったよ。もう一度ためしてみてね）";
 
   animateScore(score);
   showPraise(score);
-  recordResult(score);
+  recordResult(score, {topic: currentTopic, text});
 }
 
 /* 手動採点スライダー */
@@ -860,13 +1086,68 @@ $("btn-m-decide").addEventListener("click",()=>{
   if(manualDone) return;
   manualDone = true;
   const s = parseInt($("m-slider").value);
-  recordResult(s);
+  recordResult(s, {topic: currentTopic, text: ""});
   showPraise(s);
   $("btn-m-decide").disabled = true;
   $("btn-m-decide").textContent = "記録したよ！ 📝";
 });
 
 $("btn-again").addEventListener("click",()=>{
+  pickTopic(null);
+});
+
+/* ================= 文章チャレンジ（任意） ================= */
+$("btn-write").addEventListener("click",()=>{
+  $("write-topic").textContent = currentTopic;
+  $("write-area").value = "";
+  $("write-count").textContent = "0文字";
+  $("write-edit").style.display = "block";
+  $("write-result").style.display = "none";
+  show("write");
+});
+
+$("write-area").addEventListener("input",()=>{
+  $("write-count").textContent = $("write-area").value.trim().length + "文字";
+});
+
+$("btn-write-done").addEventListener("click",()=>{
+  const text = $("write-area").value.trim();
+  if(!text){
+    $("write-count").textContent = "まだ書いてないよ！1文でもいいから書いてみよう✏️";
+    return;
+  }
+  // お話ログに保存（直前のログに追記。なければ新規で追加）
+  const d = loadData();
+  if(lastLogIdx !== null && d.logs[lastLogIdx] && d.logs[lastLogIdx].t === currentTopic){
+    d.logs[lastLogIdx].w = text;
+  }else{
+    const now = new Date();
+    d.logs.push({
+      d: (now.getMonth()+1)+"/"+now.getDate()+" "+String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0"),
+      t: currentTopic, s: null, x: "", w: text,
+    });
+    lastLogIdx = d.logs.length - 1;
+  }
+  saveData(d);
+
+  // ユキンがほめてくれる
+  const chars = text.length;
+  const bonusFound = BONUS_WORDS.filter(w=>text.includes(w));
+  $("w-chars").textContent = chars;
+  $("w-bwords").innerHTML = bonusFound.length
+    ? "使えた言葉: " + bonusFound.map(w=>`<span class="bword">${w}</span>`).join("")
+    : "";
+  $("write-bubble").textContent =
+    chars >= 80 ? "すごい！作文の達人だ！" :
+    chars >= 40 ? "しっかり書けたね！えらい！" :
+    "書けたのがえらい！その調子！";
+  $("write-mascot").innerHTML = whiteSVG(140);
+  $("write-edit").style.display = "none";
+  $("write-result").style.display = "block";
+  window.scrollTo(0,0);
+});
+
+$("btn-again2").addEventListener("click",()=>{
   pickTopic(null);
 });
 
@@ -891,7 +1172,30 @@ function renderRecord(){
   $("badge-area").innerHTML = d.badges.length
     ? d.badges.map(b=>`<div>${b}</div>`).join("")
     : '<span class="small">お話するとバッジがもらえるよ！</span>';
+
+  // お話ログ（新しい順）
+  const logs = (d.logs || []).slice().reverse();
+  $("log-area").innerHTML = logs.length
+    ? logs.map(L=>`
+      <div class="log-item">
+        <div class="log-head">
+          <span class="log-date">${L.d}</span>
+          <span class="log-topic">${escapeHtml(L.t)}</span>
+          <span class="log-score${L.s>=90?" gold":""}">${L.s==null?"✏️":L.s+"点"}</span>
+        </div>
+        <div class="log-body">
+          ${L.x ? "🎤 "+escapeHtml(L.x) : '<span class="small">（マイクなしで練習したよ）</span>'}
+          ${L.w ? '<div class="log-written">✏️ '+escapeHtml(L.w)+'</div>' : ""}
+        </div>
+      </div>`).join("")
+    : '<span class="small">まだログがないよ。お話すると、ここにたまっていくよ！</span>';
 }
+
+// ログの開閉（タップで話した内容を表示）
+$("log-area").addEventListener("click", e=>{
+  const item = e.target.closest(".log-item");
+  if(item) item.classList.toggle("open");
+});
 
 /* ================= 初期化 ================= */
 refreshHome();
