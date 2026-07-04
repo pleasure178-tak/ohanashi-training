@@ -227,6 +227,24 @@
   .log-item.open .log-body{display:block;}
   .log-written{margin-top:8px;border-top:2px dashed #BFE0F0;padding-top:8px;}
 
+  /* ===== おうちの人チェック ===== */
+  .p-check{font-size:1rem;}
+  .parent-box{
+    margin-top:10px;background:#FFF8EC;border:2px solid #FFE0B2;
+    border-radius:12px;padding:10px;font-size:.85rem;line-height:1.7;
+  }
+  .parent-box .p-title{font-weight:900;font-size:.8rem;color:#B26A00;margin-bottom:4px;}
+  .p-advice{min-height:64px;font-size:.9rem;margin-top:6px;border-width:2px;border-color:#FFE0B2;}
+  .p-advice:focus{border-color:#FFB300;}
+  .p-slider{width:100%;accent-color:#FFA726;height:30px;}
+  .p-btn{
+    display:inline-block;border:none;cursor:pointer;font-family:inherit;font-weight:900;
+    font-size:.85rem;padding:8px 18px;border-radius:999px;color:#fff;margin-top:8px;
+    background:linear-gradient(180deg,#FFC46B,#FFA726);box-shadow:0 3px 0 #E08900;
+  }
+  .p-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #E08900;}
+  .p-btn.ghost{background:#fff;color:#B26A00;box-shadow:0 2px 0 #FFE0B2;}
+
   /* ===== 文章チャレンジ ===== */
   textarea{
     width:100%;min-height:160px;border:3px solid var(--blue-light);border-radius:16px;
@@ -1175,27 +1193,81 @@ function renderRecord(){
     : '<span class="small">お話するとバッジがもらえるよ！</span>';
 
   // お話ログ（新しい順）
-  const logs = (d.logs || []).slice().reverse();
+  const logs = d.logs || [];
   $("log-area").innerHTML = logs.length
-    ? logs.map(L=>`
-      <div class="log-item">
+    ? logs.map((L,idx)=>({L,idx})).reverse().map(({L,idx})=>`
+      <div class="log-item" data-idx="${idx}">
         <div class="log-head">
           <span class="log-date">${L.d}</span>
           <span class="log-topic">${escapeHtml(L.t)}</span>
+          ${L.p ? '<span class="p-check" title="おうちの人確認済み">✅</span>' : ""}
           <span class="log-score${L.s>=90?" gold":""}">${L.s==null?"✏️":L.s+"点"}</span>
         </div>
         <div class="log-body">
           ${L.x ? "🎤 "+escapeHtml(L.x) : '<span class="small">（マイクなしで練習したよ）</span>'}
           ${L.w ? '<div class="log-written">✏️ '+escapeHtml(L.w)+'</div>' : ""}
+          <div class="parent-box">${parentBoxHTML(L)}</div>
         </div>
       </div>`).join("")
     : '<span class="small">まだログがないよ。お話すると、ここにたまっていくよ！</span>';
 }
 
-// ログの開閉（タップで話した内容を表示）
+/* おうちの人チェック欄（未確認=記入フォーム / 確認済み=表示） */
+function parentBoxHTML(L, editing){
+  if(L.p && !editing){
+    return `<div class="p-title">👪 おうちの人チェック ✅ 確認済み</div>
+      <div style="font-weight:900;">おうちの人の点数: ${L.p.s}点</div>
+      ${L.p.a ? "💬 " + escapeHtml(L.p.a) : ""}
+      <div><button class="p-btn ghost p-edit">✏️ 直す</button></div>`;
+  }
+  const s = L.p ? L.p.s : 80;
+  const a = L.p ? L.p.a : "";
+  return `<div class="p-title">👪 おうちの人チェック</div>
+    <div style="font-weight:900;">おうちの人の点数: <span class="p-score-val">${s}</span>点</div>
+    <input type="range" class="p-slider" min="0" max="100" step="5" value="${s}">
+    <textarea class="p-advice" placeholder="ワンポイントアドバイスを書いてね（なくてもOK）">${escapeHtml(a)}</textarea>
+    <div><button class="p-btn p-save">✅ 確認したよ</button></div>`;
+}
+
+// ログの開閉＆おうちの人チェックの保存
 $("log-area").addEventListener("click", e=>{
   const item = e.target.closest(".log-item");
-  if(item) item.classList.toggle("open");
+  if(!item) return;
+  const idx = parseInt(item.dataset.idx);
+
+  // 見出しタップ → 開閉（記入欄の操作では閉じない）
+  if(e.target.closest(".log-head")){ item.classList.toggle("open"); return; }
+
+  // ✅ 確認したよ → 保存
+  if(e.target.closest(".p-save")){
+    const box = item.querySelector(".parent-box");
+    const d = loadData();
+    if(!d.logs[idx]) return;
+    d.logs[idx].p = {
+      s: parseInt(box.querySelector(".p-slider").value),
+      a: box.querySelector(".p-advice").value.trim(),
+    };
+    saveData(d);
+    box.innerHTML = parentBoxHTML(d.logs[idx]);
+    if(!item.querySelector(".p-check")){
+      item.querySelector(".log-score").insertAdjacentHTML("beforebegin",
+        '<span class="p-check" title="おうちの人確認済み">✅</span>');
+    }
+    return;
+  }
+
+  // ✏️ 直す → 記入フォームに戻す（入力済みの値入り）
+  if(e.target.closest(".p-edit")){
+    const d = loadData();
+    item.querySelector(".parent-box").innerHTML = parentBoxHTML(d.logs[idx], true);
+  }
+});
+
+// 親の点数スライダーの値をリアルタイム表示
+$("log-area").addEventListener("input", e=>{
+  if(e.target.classList.contains("p-slider")){
+    e.target.closest(".parent-box").querySelector(".p-score-val").textContent = e.target.value;
+  }
 });
 
 /* ================= 初期化 ================= */
